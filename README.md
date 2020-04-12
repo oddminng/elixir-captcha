@@ -8,13 +8,13 @@ C code come from: [https://github.com/huacnlee/rucaptcha](https://github.com/hua
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
+The package can be installed as:
 
   1. Add `captcha` to your list of dependencies in `mix.exs`:
 
     ```elixir
     def deps do
-      [{:captcha, "~> 0.1.0"}]
+      [{:captcha, git: "https://github.com/oddminng/elixir-captcha.git", tag: "0.1.0"}]
     end
     ```
 
@@ -28,11 +28,10 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 ## Usage
 
 ```elixir
-# allow customize receive timeout, default: 10_000
 case Captcha.get() do
   {:ok, text, img_binary } ->
     # save text in session, then send img to client
-  {:timeout} ->
+  {:error, reason} ->
     # log some error
 end
 ```
