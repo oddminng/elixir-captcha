@@ -19,3 +19,7 @@ erl_crash.dump
 *.o
 
 priv/captcha
+
+#IDE file
+*.iml
+/.idea/
