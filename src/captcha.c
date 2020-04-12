@@ -2,6 +2,7 @@ const int gifsize;
 void captcha(unsigned char im[70*200], unsigned char l[6]);
 void makegif(unsigned char im[70*200], unsigned char gif[gifsize], int style);
 
+#include <stdio.h>
 #include <unistd.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -153,11 +154,23 @@ static const char *letters="abcdafahijklmnopqrstuvwxyz";
 void captcha(unsigned char im[70*200], unsigned char l[6]) {
   unsigned char swr[200];
   uint8_t s1,s2;
-
-  int f=open("/dev/urandom",O_RDONLY);
-  read(f,l,5); read(f,swr,200); read(f,dr,sizeof(dr)); read(f,&s1,1); read(f,&s2,1);
-  close(f);
-
+  time_t t;
+  srand((unsigned) time(&t));
+  int i;
+  for (i = 0; i <= 5; ++i)
+  {
+    l[i] = rand();
+  }
+  for (i = 0; i <= 200; ++i)
+  {
+    swr[i] = rand();
+  }
+  for (i = 0; i <= sizeof(dr); ++i)
+  {
+    dr[i] = rand();
+  }
+  s1 = rand();
+  s2 = rand();
   memset(im,0xff,200*70); s1=s1&0x7f; s2=s2&0x3f; l[0]%=25; l[1]%=25; l[2]%=25; l[3]%=25; l[4]%=25; l[5]=0;
   int p=30; p=letter(l[0],p,im,swr,s1,s2); p=letter(l[1],p,im,swr,s1,s2); p=letter(l[2],p,im,swr,s1,s2); p=letter(l[3],p,im,swr,s1,s2); letter(l[4],p,im,swr,s1,s2);
   line(im,swr,s1); dots(im); // blur(im); // filter(im);
